@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>bike sutff</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+	</style>
+
+	<script 
+		type="text/javascript" 
+		src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.9.1/d3.min.js">
+	</script>
+	<script
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous">
+	</script>
+	<script type="text/javascript">
+		$(document).ready( function(){
+
+			var
+				linearScale = d3.scaleLinear().domain([0,2000]).range([0,1000]),
+				
+				frontWheelX = linearScale(250), // close to 266, which is roughly a 20 inch wheel's radius in millimeters.
+				wheelData = [linearScale(432), linearScale(432)],
+				wheelbase = [0, 1324],
+				colors = ['red', 'blue'];
+
+			function scaled(dataSet) {
+				var scaledData = []; 
+				for (var i = 0; i < dataSet.length; i++) {
+					scaledData[i] = linearScale(dataSet[i])
+				}
+				return scaledData
+			}
+
+
+			function update() {
+				d3.select('svg').selectAll('circle')
+					.data(scaled(wheelbase))
+					.attr('cx', function(d){if(d>0){return d-(wheelData[0]/2)}else{return frontWheelX}})
+			}
+
+			function create() {
+				d3.select('svg').selectAll('circle')
+					.data(wheelData)
+					.enter()
+					.append('circle')
+					.attr('cx', function(d){return d/2})
+					.attr('cy', function(d){return d/2})
+					.attr('r', function(d){return d/2})
+
+				d3.select('svg').selectAll('circle')
+					.data(colors)
+					.attr('fill', function(d){return d})
+
+				d3.select('svg').selectAll('circle')
+					.data(scaled(wheelbase))
+					.attr('cx', function(d){if(d>0){return d-(scaled(wheelData)[0]/2)}else{return frontWheelX}})
+			}
+
+			create()
+
+			$('a').on('click', function(e) {
+				e.preventDefault()
+				wheelbase = [0, $(this).data('wheelbase')]
+				update()
+
+			})
+		})
+
+
+	</script>
+</head>
+<body>
+
+
+	<svg xmlns="http://www.w3.org/2000/svg" height="500" width="2000" version="1.1">
+		
+
+	<br>
+	bike wheelbases in mm. All wheels are 17" (431.8mm).
+	<br>
+
+	<a href="#" data-wheelbase="1324" data-bike="TZ">
+	tz250, ~2002: 1324 
+	</a>
+	
+	<br>
+	<a href="#" data-wheelbase="1375" data-bike="R6">
+		r6, 2008: 1375
+	</a>
+	<br>
+
+	<a href="#" data-wheelbase="1405" data-bike="Big Gixxer">
+		gsxr 1000, 2006: 1405
+	</a>
+	<br>
+	
+	<a href="#" data-wheelbase="1410" data-bike="Thundercat">
+		yzf 600r Thundercat: 1410
+	</a>
+	<br>
+	
+	<a href="#" data-wheelbase="1524" data-bike="DRZ">
+		drz400sm: 1524
+	</a>
+	<br>
+	
+</body>
+</html>
