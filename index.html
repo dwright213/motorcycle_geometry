@@ -26,8 +26,10 @@
 				frontWheelX = linearScale(250), // close to 266, which is roughly a 20 inch wheel's radius in millimeters.
 				wheelData = [linearScale(432), linearScale(432)],
 				wheelbase = [0, 1324],
-				colors = ['red', 'blue'],
-				positions = ['front', 'rear'];
+				tireHeights = [linearScale(120*.70), linearScale(190*.55)]
+				colors = ['hsla(337, 0%, 50%, 0.75)', 'hsla(337, 0%, 50%, 0.75)'],
+				positions = ['front', 'rear'],
+				height = $('#play-place').attr('height');
 
 			function scaled(dataSet) {
 				var scaledData = []; 
@@ -51,8 +53,13 @@
 					.enter()
 					.append('circle')
 					.attr('cx', function(d){return d/2})
-					.attr('cy', function(d){return d/2})
+					.attr('cy', height/2)
 					.attr('r', function(d){return d/2})
+
+				d3.select('svg').selectAll('circle')	
+					.data(tireHeights)
+					.attr('stroke', 'hsla(337, 0%, 50%, 0.75)')
+					.attr('stroke-width', function(d){return d})
 
 				d3.select('svg').selectAll('circle')
 					.data(colors)
@@ -68,7 +75,6 @@
 			}
 
 			create()
-
 			$('a').on('click', function(e) {
 				e.preventDefault()
 				wheelbase = [0, $(this).data('wheelbase')]
@@ -83,11 +89,13 @@
 <body>
 
 
-	<svg xmlns="http://www.w3.org/2000/svg" height="500" width="1000" version="1.1">
+	<svg xmlns="http://www.w3.org/2000/svg" id="play-place" height="800" width="1000" version="1.1">
 		
 
 	<br>
-	bike wheelbases in mm. All wheels are 17" (431.8mm), and I haven't figured in tires just yet.
+	bike wheelbases in mm. All wheels are 17" (431.8mm).
+	<br>
+	tires as stroke: Diameter in Inches = Rim Diam Inches + [ (2 x Aspect Ratio x Section Width) / 25.4]
 	<br>
 	fun fact: I'm completely new to this d3 stuff.
 	<br>
