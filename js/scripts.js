@@ -1,20 +1,22 @@
 $(document).ready( function(){
 
 	var
-		linearScale = d3.scaleLinear().domain([0,2000]).range([0,1000]),
-
-		playPlace = $('#play-place'),
-		height = playPlace.attr('height'),
+		// continue with d3's linear scaler for now.
+		linearScale = d3.scaleLinear().domain([0,2500]).range([0,1000]),
 		
 		// initialize SVG.js
 		draw = SVG('play-place'),
 
-		frontWheelX = linearScale(266), // close to 266, which is roughly a 20 inch wheel's radius in millimeters.
-		wheelData = [linearScale(432), linearScale(432)],
-		wheelbase = [0, 1324],
-		tireHeights = [linearScale(120*.70), linearScale(190*.55)]
-		colors = ['hsla(337, 0%, 50%, 0.75)', 'hsla(337, 0%, 50%, 0.75)'],
-		positions = ['front', 'rear'];
+		playPlace = $('#play-place'),
+		width = playPlace.attr('width'),
+		height = playPlace.attr('height'),
+
+		// this is probably gonna stay the same.
+		groundWidth = 4,
+		ground = draw.line(0, height, width, height).stroke({ color: '#000', width: groundWidth, linecap: 'round' }),
+		
+		// let's set our left-most point about a scale half-meter away from the left edge of the screen.
+		frontAxle = scaled(500);
 
 
 	class Wheel {
@@ -59,52 +61,33 @@ $(document).ready( function(){
 		return linearScale(dataSet)
 	}
 
+	function gravity(itemHeight) {
+		return (height - (itemHeight/2)) - groundWidth/2
+	}
+
 	function create(bike) {
-		console.log(height)
 
-
+		// apply our data to some shapse:
 		var 
-			frontWheel = draw.circle(scaled(bike.wheels.front.fullHeight)),
-			backWheel = draw.circle(scaled(bike.wheels.rear.fullHeight)),
-			ground = draw.line(frontWheelX - scaled(bike.wheels.fullRadius), 100, 100, 0)//.move(20, 20);
+			frontHeight = scaled(bike.wheels.front.fullHeight),
+			rearHeight = scaled(bike.wheels.rear.fullHeight),
+			wheelBase = scaled(bike.specs.wheelbase),
+			
+			frontWheel = 
+				draw.circle(frontHeight)
+						.fill('#f06')
+						.center(frontAxle, gravity(frontHeight)),
 
-  
-			ground.stroke({ color: '#f06', width: 10, linecap: 'round' })
-
-			frontWheel.fill('#f06').center(frontWheelX, height/2)
-			backWheel.fill('#6f6').center(frontWheelX + scaled(bike.specs.wheelbase), height/2)
-
-
-				// .move(scaled(bike.fullRadius), scaled(bike.fullRadius))
+			rearWheel = 
+				draw.circle(rearHeight)
+						.fill('#6f6')
+						.center(frontAxle + wheelBase, gravity(rearHeight));
 
 
+			// frontWheel.fill('#f06').center(frontAxle, gravity(frontHeight))
+			// rearWheel.fill('#6f6').center(frontAxle + wheelBase, gravity(rearHeight))
 
 
-		// d3.select('svg').selectAll('circle')
-		// 	.data([bike.wheels.front, bike.wheels.rear])
-		// 	.enter()
-		// 	.append('circle')
-		// 	.attr('cx', function(d){return scaled(d.fullRadius)})
-		// 	.attr('cy', height/2)
-		// 	.attr('r', function(d){return scaled(d.fullRadius)})
-		// 	.attr('fill', 'red')
-
-		// d3.select('svg').selectAll('circle')	
-		// 	.data(tireHeights)
-		// 	.attr('stroke', 'hsla(337, 0%, 50%, 0.75)')
-		// 	.attr('stroke-width', function(d){return d})
-
-		// d3.select('svg').selectAll('circle')
-		// 	.data(colors)
-		// 	.attr('fill', function(d){return d})
-
-		// d3.select('svg').selectAll('circle')
-		// 	.data(positions)
-		// 	.attr('class', function(d){return d})
-
-		// d3.select('svg').selectAll('circle')
-		// 	.data(scaled(wheelbase))
-		// 	.attr('cx', function(d){if(d>0){return d-(scaled(wheelData)[0]/2)}else{return frontWheelX}})
 	}
 
 	// create()
