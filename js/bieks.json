@@ -1,0 +1,124 @@
+[{
+
+	"name": {
+		"make": "Suzuki",
+		"model": "GSX-R 1000",
+		"year": "2006"
+	},
+
+	"specs": {
+		"wheelbase": 1405,
+		"seatHeight": 810,
+		"groundClearance": 125
+	},
+
+	"wheels": {
+		"front": {
+			"size": 17,
+			"position": "front",
+			"tire": {
+				"profile": 120,
+				"aspect": 70
+			}
+		},
+		"rear": {
+			"size": 17,
+			"position": "rear",
+			"tire": {
+				"profile": 190,
+				"aspect": 55
+			}
+		}
+	},
+
+}, {
+	"name": {
+		"make": "Yamaha",
+		"model": "TZ-250",
+		"year": "2002"
+	},
+
+	"specs": {
+		"wheelbase": 1345,
+		"seatHeight": 773,
+		"groundClearance": 119
+	},
+	"wheels": {
+		"front": {
+			"size": 17,
+			"position": "front",
+			"tire": {
+				"profile": 120,
+				"aspect": 60
+			}
+		},
+		"rear": {
+			"size": 17,
+			"position": "rear",
+			"tire": {
+				"profile": 165,
+				"aspect": 55
+			}
+		}
+	}
+}, {
+	"name": {
+		"make": "Honda",
+		"model": "Grom",
+		"year": "2015"
+	},
+
+	"specs": {
+		"wheelbase": 1199,
+		"seatHeight": 754,
+		"groundClearance": 165
+	},
+	"wheels": {
+		"front": {
+			"size": 12,
+			"position": "front",
+			"tire": {
+				"profile": 120,
+				"aspect": 70
+			}
+		},
+		"rear": {
+			"size": 12,
+			"position": "rear",
+			"tire": {
+				"profile": 130,
+				"aspect": 70
+			}
+		}
+	}
+}, {
+	"name": {
+		"make": "Honda",
+		"model": "CB1000C",
+		"year": "1983"
+	},
+
+	"specs": {
+		"wheelbase": 1626,
+		"seatHeight": 813,
+		"groundClearance": 178
+	},
+	"wheels": {
+		"front": {
+			"size": 18,
+			"position": "front",
+			"tire": {
+				"profile": 110,
+				"aspect": 90
+			}
+		},
+		"rear": {
+			"size": 16,
+			"position": "rear",
+			"tire": {
+				"profile": 140,
+				"aspect": 90
+			}
+		}
+	}
+}]

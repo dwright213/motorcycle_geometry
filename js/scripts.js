@@ -84,32 +84,181 @@ $(document).ready( function(){
 						.center(frontAxle + wheelBase, gravity(rearHeight));
 
 
-			// frontWheel.fill('#f06').center(frontAxle, gravity(frontHeight))
-			// rearWheel.fill('#6f6').center(frontAxle + wheelBase, gravity(rearHeight))
-
-
 	}
 
 	// create()
+		console.log('i am batman')
 	create(gixxer)
 	$('a').on('click', function(e) {
+		console.log('wu tang clan')
+		bikeBuilder(bieks)
 		e.preventDefault()
 		// wheelbase = [0, $(this).data('wheelbase')]
-		create(gixxer)
+		// create(gixxer)
 
 	})
 
+	function bikeBuilder(bikes) {
+		var allBikes = [];
+
+		for (var i = 0; i < bikes.length; i++) {
+			// console.log(bikes[i])
+			var 
+				bike = bikes[i],
+				objWheels = bike.wheels,
+				
+				theseWheels = {
+					front: new Wheel(
+						objWheels.front.size, 
+						{profile: objWheels.front.tire.profile,
+						 aspect: objWheels.front.tire.aspect},
+						 objWheels.front.position),
+					rear: new Wheel(
+						objWheels.rear.size, 
+						{profile: objWheels.rear.tire.profile,
+						 aspect: objWheels.rear.tire.aspect},
+						 objWheels.rear.position)
+				}
+
+		}
+
+	}
+
+
+	// var
+	// 	wheels = {
+	// 		front: new Wheel(17, {profile: 120, aspect: .70}, 'front'),
+	// 		rear: new Wheel(17, {profile: 190, aspect: .55}, 'rear')
+	// 	},
+	// 	specs = {wheelbase: 1405, seatHeight: 810, groundClearance: 125},
+	// 	gixxer = new Bike('Suzuki', 'GSX-R 1000', 2006, wheels, specs);
 
 
 
-// fzr = new Bike('Yamaha', 'fzr400', 1990),
-// console.log(fzr.fullName)
+var 
+	bieks = [{
+		"name": {
+			"make": "Suzuki",
+			"model": "GSX-R 1000",
+			"year": "2006"
+		},
 
-	// console.log(gixxer.wheels.front.fullHeight)
-	// console.log(gixxer.wheels.rear.fullHeight)
-	// console.log(gixxer.fullName)
+		"specs": {
+			"wheelbase": 1405,
+			"seatHeight": 810,
+			"groundClearance": 125
+		},
 
-	// console.log(gixxer)
+		"wheels": {
+			"front": {
+				"size": 17,
+				"position": "front",
+				"tire": {
+					"profile": 120,
+					"aspect": 70
+				}
+			},
+			"rear": {
+				"size": 17,
+				"position": "rear",
+				"tire": {
+					"profile": 190,
+					"aspect": 55
+				}
+			}
+		},
+
+	}, {
+		"name": {
+			"make": "Yamaha",
+			"model": "TZ-250",
+			"year": "2002"
+		},
+
+		"specs": {
+			"wheelbase": 1345,
+			"seatHeight": 773,
+			"groundClearance": 119
+		},
+		"wheels": {
+			"front": {
+				"size": 17,
+				"position": "front",
+				"tire": {
+					"profile": 120,
+					"aspect": 60
+				}
+			},
+			"rear": {
+				"size": 17,
+				"position": "rear",
+				"tire": {
+					"profile": 165,
+					"aspect": 55
+				}
+			}
+		}
+	}, {
+		"name": {
+			"make": "Honda",
+			"model": "Grom",
+			"year": "2015"
+		},
+
+		"specs": {
+			"wheelbase": 1199,
+			"seatHeight": 754,
+			"groundClearance": 165
+		},
+		"wheels": {
+			"front": {
+				"size": 12,
+				"position": "front",
+				"tire": {
+					"profile": 120,
+					"aspect": 70
+				}
+			},
+			"rear": {
+				"size": 12,
+				"position": "rear",
+				"tire": {
+					"profile": 130,
+					"aspect": 70
+				}
+			}
+		}
+	}, {
+		"name": {
+			"make": "Honda",
+			"model": "CB1000C",
+			"year": "1983"
+		},
+
+		"specs": {
+			"wheelbase": 1626,
+			"seatHeight": 813,
+			"groundClearance": 178
+		},
+		"wheels": {
+			"front": {
+				"size": 18,
+				"position": "front",
+				"tire": {
+					"profile": 110,
+					"aspect": 90
+				}
+			},
+			"rear": {
+				"size": 16,
+				"position": "rear",
+				"tire": {
+					"profile": 140,
+					"aspect": 90
+				}
+			}
+		}
+	}];
 
 })
 
