@@ -3,41 +3,97 @@
 <head>
 	<title>bike sutff</title>
 
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
+	<link 
+		rel="stylesheet" 
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" 
+		integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" 
+		crossorigin="anonymous">
 
+	<link 
+		rel="stylesheet" 
+		type="text/css" 
+		href="css/styles.css">
+
+	<link 
+		href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+		rel="stylesheet" 
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	
 	<script 
 		type="text/javascript" 
 		src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.9.1/d3.min.js">
 	</script>
+
+	<script 
+		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" 
+		integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8=" 
+		crossorigin="anonymous">		
+	</script>
+
 	<script
+		type="text/javascript" 
 		src="https://code.jquery.com/jquery-3.2.1.min.js"
 		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 		crossorigin="anonymous">
 	</script>
+
+	<script 
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" 
+		integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" 
+		crossorigin="anonymous">
+	</script>
+
+	<script 
+		type="text/javascript"
+		src="js/vendor/sortable.js">
+	</script>
+
 	<script 
 		type="text/javascript" 
 		src="js/vendor/svg.js">
 	</script>
+
 	<script 
 		type="text/javascript" 
 		src="js/scripts.js">
 	</script>
+
 </head>
 <body>
+<div class="container">
+	
+<div class="row">
+	<div class="col-sm-8">
+		<svg xmlns="http://www.w3.org/2000/svg" id="play-place" height="600" width="1200" version="1.1">
+	</div>
+			
+	<div class="col-sm-4">
+		<br>
+			Motorcycle wheels and wheelbases, scaled for comparison.	
+		<br>
+
+		<table id="moto-table" class="table">
+			<thead>
+				<tr>
+					<th><i class="fa fa-cubes" aria-hidden="true"></i></th>
+					<th>model</th>
+					<th>0%</th>
+					<th>25%</th>
+					<th>75%</th>
+					<th>100%</th>
+				</tr>
+			</thead>
+			<tbody id="bike-list">
+			</tbody>
+		</table>
 
 
-	<svg xmlns="http://www.w3.org/2000/svg" id="play-place" height="600" width="1200" version="1.1">
-		
 
-	<br>
-		Motorcycle wheels and wheelbases, scaled for comparison.	
-	<br>
 
-	<a href="#" id="go">
-	BUILD DARN BIKES OK 
-	</a>
-	<div id="moto-buttons"></div>
-	<br>
+		<br>
+	</div>
+</div>
+</div>
 	
 </body>
 </html>

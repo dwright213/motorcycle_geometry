@@ -1,3 +1,7 @@
 body {
 	margin: 0;
 }
+
+.drag-ghost {
+	color: rgba(41, 43, 44, 0.1);
+}

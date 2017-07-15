@@ -1,6 +1,131 @@
 $(document).ready( function(){
 
 	var
+		// our bike data
+		bieks = [{
+			"name": {
+				"make": "Suzuki",
+				"model": "GSX-R 1000",
+				"year": "2006"
+			},
+
+			"specs": {
+				"wheelbase": 1405,
+				"seatHeight": 810,
+				"groundClearance": 125
+			},
+
+			"wheels": {
+				"front": {
+					"size": 17,
+					"position": "front",
+					"tire": {
+						"profile": 120,
+						"aspect": 70
+					}
+				},
+				"rear": {
+					"size": 17,
+					"position": "rear",
+					"tire": {
+						"profile": 190,
+						"aspect": 55
+					}
+				}
+			},
+
+		}, {
+			"name": {
+				"make": "Yamaha",
+				"model": "TZ-250",
+				"year": "2002"
+			},
+
+			"specs": {
+				"wheelbase": 1345,
+				"seatHeight": 773,
+				"groundClearance": 119
+			},
+			"wheels": {
+				"front": {
+					"size": 17,
+					"position": "front",
+					"tire": {
+						"profile": 120,
+						"aspect": 60
+					}
+				},
+				"rear": {
+					"size": 17,
+					"position": "rear",
+					"tire": {
+						"profile": 165,
+						"aspect": 55
+					}
+				}
+			}
+		}, {
+			"name": {
+				"make": "Honda",
+				"model": "Grom",
+				"year": "2015"
+			},
+
+			"specs": {
+				"wheelbase": 1199,
+				"seatHeight": 754,
+				"groundClearance": 165
+			},
+			"wheels": {
+				"front": {
+					"size": 12,
+					"position": "front",
+					"tire": {
+						"profile": 120,
+						"aspect": 70
+					}
+				},
+				"rear": {
+					"size": 12,
+					"position": "rear",
+					"tire": {
+						"profile": 130,
+						"aspect": 70
+					}
+				}
+			}
+		}, {
+			"name": {
+				"make": "Honda",
+				"model": "CB1000C",
+				"year": "1983"
+			},
+
+			"specs": {
+				"wheelbase": 1626,
+				"seatHeight": 813,
+				"groundClearance": 178
+			},
+			"wheels": {
+				"front": {
+					"size": 18,
+					"position": "front",
+					"tire": {
+						"profile": 110,
+						"aspect": 90
+					}
+				},
+				"rear": {
+					"size": 16,
+					"position": "rear",
+					"tire": {
+						"profile": 140,
+						"aspect": 90
+					}
+				}
+			}
+		}],
+
 		// continue with d3's linear scaler for now.
 		linearScale = d3.scaleLinear().domain([0,2500]).range([0,1000]),
 		
@@ -11,6 +136,8 @@ $(document).ready( function(){
 		width = playPlace.attr('width'),
 		height = playPlace.attr('height'),
 		buttonDiv = $('#moto-buttons'),
+		motoTable = $('#moto-table tbody'),
+		motorcycles = [],
 
 		// this is probably gonna stay the same.
 		groundWidth = 4,
@@ -36,12 +163,16 @@ $(document).ready( function(){
 	}
 
 	class Bike {
-		constructor(make, model, year, wheels, specs) {
+		constructor(make, model, year, wheels, specs, index, opacity) {
 			this.make = make
 			this.model = model
 			this.year = year
 			this.wheels = wheels
 			this.specs = specs
+
+			// display related stuff
+			this.index = index
+			this.opacity = opacity
 		}
 		get id() {
 			return `${this.make}-${this.model}-${this.year}`.replace(/\s+/g, '')
@@ -52,14 +183,6 @@ $(document).ready( function(){
 		}
 	}
 		
-	// var
-	// 	wheels = {
-	// 		front: new Wheel(17, {profile: 120, aspect: 70}, 'front'),
-	// 		rear: new Wheel(17, {profile: 190, aspect: 55}, 'rear')
-	// 	},
-	// 	specs = {wheelbase: 1405, seatHeight: 810, groundClearance: 125},
-	// 	gixxer = new Bike('Suzuki', 'GSX-R 1000', 2006, wheels, specs);
-
 
 	function scaled(dataSet) {
 		return linearScale(dataSet)
@@ -69,7 +192,7 @@ $(document).ready( function(){
 		return (height - (itemHeight/2)) - groundWidth/2
 	}
 
-	function create(bike) {
+	function create(bike, index) {
 		// apply our data to some shapse:
 		var 
 			colors = {
@@ -86,19 +209,25 @@ $(document).ready( function(){
 				draw.circle(frontHeight)
 						.fill(colors[bike.make])
 						.center(frontAxle, gravity(frontHeight))
-						.attr({id: bike.id}),
+						.attr({
+							'class': bike.id, 
+							'fill-opacity': bike.opacity,
+							'data-index': index
+						}),
 
 			rearWheel = 
 				draw.circle(rearHeight)
 						.fill(colors[bike.make])
 						.center(frontAxle + wheelBase, gravity(rearHeight))
-						.attr({id: bike.id});
+						.attr({
+							'class': bike.id, 
+							'fill-opacity': bike.opacity,
+							'data-index': index
+						});
 			
-			console.log(frontWheel)
 	}
 
 	function bikeBuilder(bikes) {
-		console.log(bikes)
 		var allBikes = [];
 
 		for (var i = 0; i < bikes.length; i++) {
@@ -130,176 +259,136 @@ $(document).ready( function(){
 					objBike.name.model, 
 					objBike.name.year, 
 					theseWheels, 
-					objBike.specs
+					objBike.specs,
+					i,
+					.25
 				);
-			makeButton(thisBike)
+			addRow(thisBike, i)
 			allBikes.push(thisBike)	
 		}
 		return allBikes;
-		console.log(allBikes)
-
 	}
 
-
-	$('a#go').on('click', function(e) {
-		var motorcycles = bikeBuilder(bieks);
-		e.preventDefault()
-
-		for (var i = 0; i < motorcycles.length; i++) {
-			create(motorcycles[i])
+	function makeAllBikes(){
+		motorcycles = bikeBuilder(bieks)
+		for (var i = motorcycles.length - 1; i >= 0; i--) {
+			create(motorcycles[i], i)
 		}
-
 		addViewEvents()
-	})
+	}
+
+	makeAllBikes()
+	addSorting()
+
+	function setOpacity(id, opacity) {
+		var 
+			wheels = SVG.select('circle.' + id);
+		wheels.attr({'fill-opacity': parseFloat(opacity)})
+	}
 
 	function addViewEvents() {
-		$('a.view').on('click', function(e) {
-			console.log(this.id)
+		$('input[type="radio"]').on('change', function(e) {
 			var
-				allTheWheels = SVG.select('circle'), 
-				wheels = SVG.select('circle#' + this.id);
-			allTheWheels.attr({'fill-opacity': .20})
-			wheels.front().attr({'fill-opacity': 100})
+				id = $(this).data('bike'),
+				opacity = $(this).data('opacity');
+
+				for (var i = 0; i < motorcycles.length; i++) {
+					if (motorcycles[i].id == id) {
+						motorcycles[i].opacity = opacity
+					}
+				}
+
+			setOpacity(id, opacity)
 		})
 	}
 
-	function makeButton(moto) {
+	function addSorting() {
 		var 
-			button = `
-				<a href="#" class="view" id="${moto.id}">
-					${moto.fullName}
-				</a>
-				<br>`;
-		buttonDiv.append(button);
+			bikeList = document.getElementById("bike-list"),
+
+			sortable = Sortable.create(bikeList, {
+				animation: 150,
+				ghostClass: 'drag-ghost',
+				chosenClass: 'table-successs',
+				handle: ".sort-handle",
+					onEnd: function (evt) {
+					var bikeId = $(evt.item).data('bike');
+					console.log(evt.from.children)
+					indexReset(evt.from.children)
+				}
+			});
+	}
+
+	function indexReset(rows) {
+		for (var i = 0; i < rows.length; i++) {
+			rows[i].dataset.index = i;
+
+			for (var j = 0; j < motorcycles.length; j++) {
+				if (motorcycles[j].id == rows[i].dataset.bike) {
+					motorcycles[j].index = rows[i].dataset.index
+				}
+			}
+		}
+		motorcycles.sort(function(a, b) { 
+    	return a.index - b.index;
+		})
+
+		$('circle').remove()
+
+		for (var i = motorcycles.length - 1; i >= 0; i--) {
+			create(motorcycles[i], i)
+		}
+		addViewEvents()
+	}
+		
+
+
+	function addRow(moto, index) {
+		var
+			row = `
+				<tr data-bike="${moto.id}" data-index="${index}">
+					<td><i class="fa fa-bars sort-handle" aria-hidden="true"></i></td>
+					<td>${moto.model}</td>
+					<td>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="${moto.id}-opacity" data-opacity="0" data-bike="${moto.id}">
+							</label>
+						</div>
+					</td>
+
+					<td>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="${moto.id}-opacity" data-opacity=".75" data-bike="${moto.id}"  checked="checked">
+							</label>
+						</div>
+					</td>
+
+					<td>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="${moto.id}-opacity" data-opacity=".75" data-bike="${moto.id}">
+							</label>
+						</div>
+					</td>
+
+					<td>
+						<div class="form-check form-check-inline">
+							<label class="form-check-label">
+								<input class="form-check-input" type="radio" name="${moto.id}-opacity" data-opacity="100" data-bike="${moto.id}">
+							</label>
+						</div>
+					</td>
+				</tr>
+				`
+		motoTable.append(row)
+
 	}
 
 
 
 
-var 
-	bieks = [{
-		"name": {
-			"make": "Suzuki",
-			"model": "GSX-R 1000",
-			"year": "2006"
-		},
-
-		"specs": {
-			"wheelbase": 1405,
-			"seatHeight": 810,
-			"groundClearance": 125
-		},
-
-		"wheels": {
-			"front": {
-				"size": 17,
-				"position": "front",
-				"tire": {
-					"profile": 120,
-					"aspect": 70
-				}
-			},
-			"rear": {
-				"size": 17,
-				"position": "rear",
-				"tire": {
-					"profile": 190,
-					"aspect": 55
-				}
-			}
-		},
-
-	}, {
-		"name": {
-			"make": "Yamaha",
-			"model": "TZ-250",
-			"year": "2002"
-		},
-
-		"specs": {
-			"wheelbase": 1345,
-			"seatHeight": 773,
-			"groundClearance": 119
-		},
-		"wheels": {
-			"front": {
-				"size": 17,
-				"position": "front",
-				"tire": {
-					"profile": 120,
-					"aspect": 60
-				}
-			},
-			"rear": {
-				"size": 17,
-				"position": "rear",
-				"tire": {
-					"profile": 165,
-					"aspect": 55
-				}
-			}
-		}
-	}, {
-		"name": {
-			"make": "Honda",
-			"model": "Grom",
-			"year": "2015"
-		},
-
-		"specs": {
-			"wheelbase": 1199,
-			"seatHeight": 754,
-			"groundClearance": 165
-		},
-		"wheels": {
-			"front": {
-				"size": 12,
-				"position": "front",
-				"tire": {
-					"profile": 120,
-					"aspect": 70
-				}
-			},
-			"rear": {
-				"size": 12,
-				"position": "rear",
-				"tire": {
-					"profile": 130,
-					"aspect": 70
-				}
-			}
-		}
-	}, {
-		"name": {
-			"make": "Honda",
-			"model": "CB1000C",
-			"year": "1983"
-		},
-
-		"specs": {
-			"wheelbase": 1626,
-			"seatHeight": 813,
-			"groundClearance": 178
-		},
-		"wheels": {
-			"front": {
-				"size": 18,
-				"position": "front",
-				"tire": {
-					"profile": 110,
-					"aspect": 90
-				}
-			},
-			"rear": {
-				"size": 16,
-				"position": "rear",
-				"tire": {
-					"profile": 140,
-					"aspect": 90
-				}
-			}
-		}
-	}];
 
 })
 
