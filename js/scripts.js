@@ -196,9 +196,9 @@ $(document).ready( function(){
 		// apply our data to some shapse:
 		var 
 			colors = {
-				Yamaha: 'hsla(235, 100%, 50%, 0.7)',
-				Honda: 'hsla(360, 100%, 50%, 0.7)',
-				Suzuki: 'hsla(59, 100%, 50%, 0.7)'
+				Yamaha: 'hsla(235, 100%, 50%, 1)',
+				Honda: 'hsla(360, 100%, 50%, 1)',
+				Suzuki: 'hsla(59, 100%, 50%, 1)'
 			},
 
 			frontHeight = scaled(bike.wheels.front.fullHeight),
